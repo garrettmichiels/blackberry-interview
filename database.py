@@ -1,5 +1,6 @@
 from pymongo import MongoClient
-print("database")
+# A class that accesses a MongoDB Server on the given host and port to modify a database. 
+# A new database will only be created if it doesn't exist
 class Database():
     def __init__(self, host, port):
         self.client = MongoClient(host, port)
@@ -20,6 +21,7 @@ class Database():
         else:
             self.collection.insert_one(GUID)
 
+
     #Return None if no match
     def getEntry(self, guid):
         cursor = self.collection.find({'guid': guid})
@@ -33,11 +35,6 @@ class Database():
         data = {"guid": guidEntry["guid"], "expire": guidEntry["expire"], "user": guidEntry["user"]}
         return data
 
+    #Deletes an entry in a the collection with the corresponding guid
     def deleteEntry(self, guid):
         self.collection.delete_one({'guid': guid})
-
-# def main():
-#     pass
-
-# if __name__ == "__main__":
-#     main()
