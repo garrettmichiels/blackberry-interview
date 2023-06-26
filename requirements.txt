@@ -4,3 +4,4 @@ uuid
 json
 tornado
 asyncio
+redis

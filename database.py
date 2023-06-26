@@ -1,33 +1,12 @@
 from pymongo import MongoClient
+import mysql.connector
 import time
-import uuid
 import json
 
+
 client = MongoClient("localhost", 5555)
-# db = client.GUID_DB
 db = client["GUID_DB"]
-THIRTY_DAYS_IN_SECONDS = 2592000
-
-
-def getUnixTime():
-    unixTime = int(time.time())
-    return unixTime
-
-def getExpiration():
-    return getUnixTime() + THIRTY_DAYS_IN_SECONDS
-
-def createGUID():
-
-    #Create value
-    GUID = uuid.uuid1()
-    print(GUID)
-    
-    #Check that it doesn't exist in dictionary
-
-    #If it does, make a new GUID
-
-    #return GUID
-    return GUID
+collection = db["GUIDs"]
 
 
 # def checkDatabaseExists():
@@ -39,24 +18,34 @@ def createGUID():
 #         #if DB doesn't exist, create it
 #         db = client.GUID_DB
 
-def createEntry():
+# guid - dict
+#TODO: maybe pass in guid, expiration, and name
+def createEntry(guid, expiration, user):
     GUID = {
-        "guid": createGUID(),
-        "expire": getExpiration(),
-        "user": "Cylance, Inc."
+        "guid": guid,
+        "expire": expiration,
+        "user": user
     }
-    print("here")
-    print(db)
-    print(db.get_collection)
+    #Check if guid exists, if so, only update the expiration
+    if collection.count_documents({'guid': guid}) > 0:
+        print("Update")
+        collection.update_one({'guid': guid}, {"$set":{'expire': expiration}})
+    #if guid doesn't exist, insert
+    else:
+        collection.insert_one(GUID)
+    # data.insert_one(guid)
+    # col = collection[guid]
 
-    # data = db.create_collection("GUID")
-    data = db["guid"]
-    print("collection created")
-    col = data[GUID]
-    print(data[col])
 
-    print("data input")
+def getEntry(guid):
+    x = collection.find({'guid': guid})
 
+    for curser in x:
+        print(curser)
+    return x
+
+def deleteEntry(guid):
+    collection.delete_one({'guid': guid})
 
 def main():
     createEntry()
