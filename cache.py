@@ -27,5 +27,3 @@ class Cache():
     #Delete an entry in the cache
     def deleteGUID(self, guid):
         self.cache.delete(guid)
-
-

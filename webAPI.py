@@ -5,6 +5,7 @@ from cache import Cache
 import utils
 import json
 import argparse
+import threading
 
 DEFAULT_USER = "Cylance, Inc."
 DEFAULT_API_PORT = 8888
@@ -26,7 +27,6 @@ class GUIDHandler(tornado.web.RequestHandler):
     #READ
     #Get the GUID from the cache or database
     def get(self, guid):
-        #Get data from cache
         try:
             entry = self.cache.getGUID(guid)
         except:
@@ -54,7 +54,13 @@ class GUIDHandler(tornado.web.RequestHandler):
     #Create or update the given GUID
     #If the GUID exists, storeGUID and createEntry will simply update the expiration
     def post(self, guid=utils.createGUID()):
-        body = json.loads(self.request.body)
+        try:
+            body = json.loads(self.request.body)
+        except:
+            #If given json is invalid, send error
+            self.set_status(400)
+            self.write("The JSON body provided was invalid for this API")
+            return
         #Set variables to provided values, set to default if none
         if "user" in body:
             user = body["user"]
@@ -66,7 +72,7 @@ class GUIDHandler(tornado.web.RequestHandler):
             expiration = utils.getExpiration()
             debugMessage(f"Created expiration: {expiration}")
 
-        
+        #Store in cahce and database
         self.cache.storeGUID(guid, {"guid": guid, "expire": expiration, "user": user})
         self.database.createEntry(guid, expiration, user)
 
@@ -95,6 +101,7 @@ async def main():
     app = make_app()
     app.listen(args.apiPort)
     print("API listening...")
+
     await asyncio.Event().wait()
 
 if __name__ == "__main__":
@@ -107,5 +114,8 @@ if __name__ == "__main__":
     parser.add_argument("--debug", type=bool, default=False)
 
     args = parser.parse_args()
+
+    # database = Database(databaseHost, databasePort)
+    # cache = Cache(cacheHost, cachePort, MAX_CACHE_KEYS)
     DEBUG = args.debug
     asyncio.run(main())
