@@ -17,16 +17,17 @@ class GUIDHandler(tornado.web.RequestHandler):
         #If data is not in cache, get from database
         if entry == None:
             entry = database.getEntry(guid)
+            if entry == None:
+                return
 
         self.write(entry)
 
     #CREATE/UPDATE
     #If the guid already exists, overwrite by providing the same guid, perfect. Otherwise, make a separate funciotnality for update
-    def post(self, guid=None):
-        if guid == None:
-            guid = utils.createGUID()
-
+    def post(self, guid=utils.createGUID()):
+        
         body = json.loads(self.request.body)
+        #Set variables to provided values, set to default if none
         if "user" in body:
             user = body["user"]
         else:
@@ -35,7 +36,6 @@ class GUIDHandler(tornado.web.RequestHandler):
             expiration = body["expire"]
         else:
             expiration = utils.getExpiration()
-            
         
         cache.storeGUID(guid, {"guid": guid, "expire": expiration, "user": user}, 100000)
         database.createEntry(guid, expiration, user)

@@ -1,24 +1,9 @@
 from pymongo import MongoClient
-import mysql.connector
-import time
-import json
-
 
 client = MongoClient("localhost", 5555)
 db = client["GUID_DB"]
 collection = db["GUIDs"]
 
-
-# def checkDatabaseExists():
-#     #Check if DB exists
-#     databases = client.database_names()
-#     if "GUID_DB" in databases:
-#         print("EXISTS")
-#     else:
-#         #if DB doesn't exist, create it
-#         db = client.GUID_DB
-
-#TODO: maybe pass in guid, expiration, and name
 def createEntry(guid, expiration, user):
     GUID = {
         "guid": guid,
@@ -32,22 +17,25 @@ def createEntry(guid, expiration, user):
     #if guid doesn't exist, insert
     else:
         collection.insert_one(GUID)
-    # data.insert_one(guid)
-    # col = collection[guid]
 
-
+#Return {} if no match
 def getEntry(guid):
-    x = collection.find({'guid': guid})
+    cursor = collection.find({'guid': guid})
+    entry = list(cursor)
     #Should only have 1 entry per curser due to the update function
-    for curser in x:
-        data = {"guid": curser["guid"], "expire": curser["expire"], "user": curser["user"]}
+    #If no entry matching
+    if len(entry) == 0:
+        return None
+    guidEntry = entry[0]
+
+    data = {"guid": guidEntry["guid"], "expire": guidEntry["expire"], "user": guidEntry["user"]}
     return data
 
 def deleteEntry(guid):
     collection.delete_one({'guid': guid})
 
-def main():
-    createEntry()
+# def main():
+#     pass
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
