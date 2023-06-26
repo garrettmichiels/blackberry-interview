@@ -2,7 +2,7 @@
 The code in this repository was written and designed by Garrett Michiels.
 
 This code creates a RESTful Web API that takes in GUID's and stores them in a Redis cache and MongoDB database.
-The database is formatted as a collection where each entry is a document containing the GUID, the expiration, and the user.
+The database is formatted as a collection where each entry is a document in a collection containing the GUID, the expiration, and the user.
 
 ## How to run
 It is recommended that a python virtual environment be used. When doing so, make sure to run:
@@ -16,17 +16,17 @@ To easily run the API with the default ports. Run the executable _defaultRun_.
 
 There are several input options. A port and host can be provided for both the MongoDB and Redis server.
 
-To change the API's Port, add: ```--apiPort <int>```
+* To change the API's Port, include: ```--apiPort <int>```
 
-To change the database's Host, add: ```--dbHost <str>```
+* To change the database's Host, include: ```--dbHost <str>```
 
-To change the database's Port, add: ```--dbPort <int>```
+* To change the database's Port, include: ```--dbPort <int>```
 
-To change the cache's Host, add: ```--cacheHost <str>```
+* To change the cache's Host, include: ```--cacheHost <str>```
 
-To change the cache's Port, add: ```--cachePort <int>```
+* To change the cache's Port, include: ```--cachePort <int>```
 
-To get helpful debug messages in the terminal: ```--debug <bool>```
+* To enable helpful debug messages in the terminal: ```--debug <bool>```
 
 To run with the default values:
 ```python3 webAPI.py```
