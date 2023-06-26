@@ -1,8 +1,8 @@
 # BlackBerry Interview Prompt
 The code in this repository was written and designed by Garrett Michiels.
 
-This code creates a RESTful Web API that takes in GUID's and stores them in a Redis cache and MongoDB database.
-The database is formatted as a collection where each entry is a document in a collection containing the GUID, the expiration, and the user.
+The promp asks for a RESTful Web API that takes in GUID's and stores them in a Redis cache and MongoDB database.
+Note that in my implementation, a database is formatted as a collection where each entry is a document containing the GUID, the expiration, and the user.
 
 ## How to run
 It is recommended that a python virtual environment be used. When doing so, make sure to run:
@@ -36,5 +36,5 @@ This is equivalent to running:
 
 
 ## Room For Improvement
-- Checking for expired GUIDs in initialize() is inefficient and can be a threaded background process
-- Localhost UI for GUID input.
+- The current method of checking for expired GUIDs is being done upon each requeset to the API. This is happening as it is placed in initialize(). This is an inefficient solution and can be improved by threading the operation as a background process
+- A visual improvement could be adding UI to the localhost endpoint to allow for inputting GUIDs and JSON data.
