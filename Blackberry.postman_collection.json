@@ -7,7 +7,7 @@
 	},
 	"item": [
 		{
-			"name": "Test1",
+			"name": "TestNoErrorOnGet",
 			"item": [
 				{
 					"name": "Create GUID",
@@ -19,12 +19,12 @@
 							"raw": "{\n\"expire\": \"1427736345\",\n\"user\": \"Cylance, Inc.\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5555/guid/9094E4C980C74043A4B586B420E69DDF",
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5555",
+							"port": "8888",
 							"path": [
 								"guid",
 								"9094E4C980C74043A4B586B420E69DDF"
@@ -46,12 +46,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:5555/guid/9094E4C980C74043A4B586B420E69DDF",
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5555",
+							"port": "8888",
 							"path": [
 								"guid",
 								"9094E4C980C74043A4B586B420E69DDF"
@@ -66,12 +66,12 @@
 						"method": "DELETE",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5555/guid/9094E4C980C74043A4B586B420E69DDF",
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5555",
+							"port": "8888",
 							"path": [
 								"guid",
 								"9094E4C980C74043A4B586B420E69DDF"
@@ -103,7 +103,7 @@
 			]
 		},
 		{
-			"name": "Test2",
+			"name": "TestExpireCreation",
 			"item": [
 				{
 					"name": "Create GUID without expiration",
@@ -115,12 +115,12 @@
 							"raw": "{\n\"user\": \"Cylance, Inc.\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5555/guid/9094E4C980C74043A4B586B420E69DDF",
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5555",
+							"port": "8888",
 							"path": [
 								"guid",
 								"9094E4C980C74043A4B586B420E69DDF"
@@ -142,12 +142,12 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:5555/guid/9094E4C980C74043A4B586B420E69DDF",
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5555",
+							"port": "8888",
 							"path": [
 								"guid",
 								"9094E4C980C74043A4B586B420E69DDF"
@@ -159,7 +159,7 @@
 			]
 		},
 		{
-			"name": "Test3",
+			"name": "TestUpdateGUID",
 			"item": [
 				{
 					"name": "Create GUID",
@@ -171,15 +171,15 @@
 							"raw": "{\n\"expire\": \"0\",\n\"user\": \"Cylance, Inc.\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5555/guid/555",
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5555",
+							"port": "8888",
 							"path": [
 								"guid",
-								"555"
+								"9094E4C980C74043A4B586B420E69DDF"
 							]
 						}
 					},
@@ -198,15 +198,15 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:5555/guid/555",
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5555",
+							"port": "8888",
 							"path": [
 								"guid",
-								"555"
+								"9094E4C980C74043A4B586B420E69DDF"
 							]
 						}
 					},
@@ -219,18 +219,18 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"expire\": \"5\",\n\"user\": \"Cylance, Inc.\"\n}"
+							"raw": "{\n\"expire\": \"5000\",\n\"user\": \"Cylance, Inc.\"\n}"
 						},
 						"url": {
-							"raw": "http://localhost:5555/guid/555",
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5555",
+							"port": "8888",
 							"path": [
 								"guid",
-								"555"
+								"9094E4C980C74043A4B586B420E69DDF"
 							]
 						}
 					},
@@ -249,15 +249,143 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "http://localhost:5555/guid/555",
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5555",
+							"port": "8888",
 							"path": [
 								"guid",
-								"555"
+								"9094E4C980C74043A4B586B420E69DDF"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TestCacheLimited",
+			"item": [
+				{
+					"name": "Create 1",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"expire\": \"1\",\n\"user\": \"Cylance, Inc.\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/guid/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"guid",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create 2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"expire\": \"2\",\n\"user\": \"Cylance, Inc.\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/guid/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"guid",
+								"2"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create 3",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"expire\": \"3\",\n\"user\": \"Cylance, Inc.\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/guid/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"guid",
+								"3"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create 4",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"expire\": \"4\",\n\"user\": \"Cylance, Inc.\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/guid/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"guid",
+								"4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check terminal to see that first post didn't come from cache",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8888/guid/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"guid",
+								"1"
 							]
 						}
 					},

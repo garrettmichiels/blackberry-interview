@@ -9,7 +9,7 @@ It is recommended that a python virtual environment be used. When doing so, make
 pip install -r requirements.txt
 ```
 
-Before running the python code, make sure to be running a Redis server and MongoDB server.
+Before running the python code, make sure to be running a Redis server and MongoDB server. You can provide any ports you would like for these but the default ones are 5555 for MongoDB and 6379 for Redis.
 
 There are several input options. A port and host can be provided for both the MongoDB and Redis server.
 

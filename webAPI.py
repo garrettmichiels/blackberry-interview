@@ -7,8 +7,10 @@ import json
 import argparse
 
 DEFAULT_USER = "Cylance, Inc."
+DEFAULT_API_PORT = 8888
 DEFAULT_DB_PORT = 5555
 DEFAULT_CACHE_PORT = 6379
+MAX_CACHE_KEYS = 3
 DEFAULT_HOST = "localhost"
 
 class GUIDHandler(tornado.web.RequestHandler):
@@ -19,7 +21,7 @@ class GUIDHandler(tornado.web.RequestHandler):
         cacheHost = args["cacheHost"]
         cachePort = args["cachePort"]
         self.database = Database(databaseHost, databasePort)
-        self.cache = Cache(cacheHost, cachePort)
+        self.cache = Cache(cacheHost, cachePort, MAX_CACHE_KEYS)
 
     #READ
     #Get the GUID from the cache or database
@@ -62,8 +64,10 @@ class GUIDHandler(tornado.web.RequestHandler):
             expiration = body["expire"]
         else:
             expiration = utils.getExpiration()
+            debugMessage(f"Created expiration: {expiration}")
+
         
-        self.cache.storeGUID(guid, {"guid": guid, "expire": expiration, "user": user}, expiration)
+        self.cache.storeGUID(guid, {"guid": guid, "expire": expiration, "user": user})
         self.database.createEntry(guid, expiration, user)
 
         #Write the dict to the endpoint
@@ -89,11 +93,13 @@ def debugMessage(message):
 
 async def main():
     app = make_app()
-    app.listen(5555)
+    app.listen(args.apiPort)
+    print("API listening...")
     await asyncio.Event().wait()
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument("--apiPort", type=int, default=DEFAULT_API_PORT)
     parser.add_argument("--dbHost", type=str, default=DEFAULT_HOST)
     parser.add_argument("--dbPort", type=int, default=DEFAULT_DB_PORT)
     parser.add_argument("--cacheHost", type=str, default=DEFAULT_HOST)
@@ -102,6 +108,4 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
     DEBUG = args.debug
-    print(type(vars(args)))
-    print(args)
     asyncio.run(main())

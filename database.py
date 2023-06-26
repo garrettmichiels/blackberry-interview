@@ -15,7 +15,6 @@ class Database():
         }
         #Check if guid exists, if so, only update the expiration
         if self.collection.count_documents({'guid': guid}) > 0:
-            print("Update")
             self.collection.update_one({'guid': guid}, {"$set":{'expire': expiration}})
         #if guid doesn't exist, insert
         else:
