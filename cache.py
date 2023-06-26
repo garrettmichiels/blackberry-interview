@@ -9,7 +9,6 @@ def storeGUID(guid, metadata, timeToExp):
 
 def getGUID(guid):
     if cache.exists(guid):
-        print("IT DOES")
         return cache.hgetall(guid)
     return None
 

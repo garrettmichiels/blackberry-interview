@@ -18,7 +18,6 @@ collection = db["GUIDs"]
 #         #if DB doesn't exist, create it
 #         db = client.GUID_DB
 
-# guid - dict
 #TODO: maybe pass in guid, expiration, and name
 def createEntry(guid, expiration, user):
     GUID = {
@@ -39,10 +38,10 @@ def createEntry(guid, expiration, user):
 
 def getEntry(guid):
     x = collection.find({'guid': guid})
-
+    #Should only have 1 entry per curser due to the update function
     for curser in x:
-        print(curser)
-    return x
+        data = {"guid": curser["guid"], "expire": curser["expire"], "user": curser["user"]}
+    return data
 
 def deleteEntry(guid):
     collection.delete_one({'guid': guid})

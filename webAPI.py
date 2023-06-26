@@ -13,14 +13,13 @@ class GUIDHandler(tornado.web.RequestHandler):
     #READ
     def get(self, guid):
         #Get data from cache
-        entry = None #cache.getGUID(guid)
-        print(entry)
+        entry = cache.getGUID(guid)
         #If data is not in cache, get from database
         if entry == None:
             entry = database.getEntry(guid)
 
-        self.write(f"{entry}")
-        
+        self.write(entry)
+
     #CREATE/UPDATE
     #If the guid already exists, overwrite by providing the same guid, perfect. Otherwise, make a separate funciotnality for update
     def post(self, guid=None):
@@ -28,16 +27,21 @@ class GUIDHandler(tornado.web.RequestHandler):
             guid = utils.createGUID()
 
         body = json.loads(self.request.body)
-        user = body["user"]
-        expiration = body["expire"]
-        if body["expire"] == None:
-            expiration = utils.getExpiration()
-
-        if body["user"] == None:
+        if "user" in body:
+            user = body["user"]
+        else:
             user = DEFAULT_USER
+        if "expire" in body:
+            expiration = body["expire"]
+        else:
+            expiration = utils.getExpiration()
+            
         
         cache.storeGUID(guid, {"guid": guid, "expire": expiration, "user": user}, 100000)
         database.createEntry(guid, expiration, user)
+
+        #Write the dict to the endpoint
+        self.write(database.getEntry(guid))
         
         if DEBUG:
             print(f"STORED: {guid}")
@@ -51,9 +55,7 @@ class GUIDHandler(tornado.web.RequestHandler):
             print(f"DELETED: {guid}")
 
 def make_app():
-    return tornado.web.Application([
-        (r"/guid/(.*)", GUIDHandler),
-    ])
+    return tornado.web.Application([(r"/guid/(.*)", GUIDHandler),])
 
 async def main():
     app = make_app()
