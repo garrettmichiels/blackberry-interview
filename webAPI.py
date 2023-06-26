@@ -28,7 +28,8 @@ class GUIDHandler(tornado.web.RequestHandler):
         try:
             entry = self.cache.getGUID(guid)
         except:
-            self.write("500 Error: Cannot connect to Redis Server")
+            self.set_status(500)
+            self.write("Cannot connect to Redis Server")
             return
         #If data is not in cache, get from database
         if entry == None:
@@ -36,13 +37,15 @@ class GUIDHandler(tornado.web.RequestHandler):
             try:
                 entry = self.database.getEntry(guid)
             except:
-                self.write("500 Error: Cannot connect to MongoDB Server")
+                self.set_status(500)
+                self.write("Cannot connect to MongoDB Server")
                 return
             #Not in database
             if entry == None:
-                self.write("500 Error: That GUID doesn't exist")
+                self.set_status(500)
+                self.write("That GUID doesn't exist")
                 return
-        self.write("200: Successful Query\n")
+        self.set_status(200)
         self.write(entry)
 
     #CREATE/UPDATE
@@ -64,7 +67,7 @@ class GUIDHandler(tornado.web.RequestHandler):
         self.database.createEntry(guid, expiration, user)
 
         #Write the dict to the endpoint
-        self.write("200: Successful Entry\n")
+        self.set_status(201)
         self.write(self.database.getEntry(guid))
         
         debugMessage(f"STORED: {guid}")

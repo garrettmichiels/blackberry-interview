@@ -1,0 +1,269 @@
+{
+	"info": {
+		"_postman_id": "fab9eb67-1177-438a-b273-a72ae86f5b61",
+		"name": "Blackberry",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19953098"
+	},
+	"item": [
+		{
+			"name": "Test1",
+			"item": [
+				{
+					"name": "Create GUID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"expire\": \"1427736345\",\n\"user\": \"Cylance, Inc.\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5555/guid/9094E4C980C74043A4B586B420E69DDF",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"guid",
+								"9094E4C980C74043A4B586B420E69DDF"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get GUID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:5555/guid/9094E4C980C74043A4B586B420E69DDF",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"guid",
+								"9094E4C980C74043A4B586B420E69DDF"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete GUID",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5555/guid/9094E4C980C74043A4B586B420E69DDF",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"guid",
+								"9094E4C980C74043A4B586B420E69DDF"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check that GUID doesn't exist",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:5555/guid/9094E4C980C74043A4B586B420E69DDF",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"guid",
+								"9094E4C980C74043A4B586B420E69DDF"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test2",
+			"item": [
+				{
+					"name": "Create GUID without expiration",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"user\": \"Cylance, Inc.\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5555/guid/9094E4C980C74043A4B586B420E69DDF",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"guid",
+								"9094E4C980C74043A4B586B420E69DDF"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get GUID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:5555/guid/9094E4C980C74043A4B586B420E69DDF",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"guid",
+								"9094E4C980C74043A4B586B420E69DDF"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Test3",
+			"item": [
+				{
+					"name": "Create GUID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"expire\": \"0\",\n\"user\": \"Cylance, Inc.\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5555/guid/555",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"guid",
+								"555"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get GUID",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:5555/guid/555",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"guid",
+								"555"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update GUID",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"expire\": \"5\",\n\"user\": \"Cylance, Inc.\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5555/guid/555",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"guid",
+								"555"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Check that update worked",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:5555/guid/555",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5555",
+							"path": [
+								"guid",
+								"555"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}

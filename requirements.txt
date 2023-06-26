@@ -1,7 +1,8 @@
+tornado
+asyncio
 pymongo
+redis
 time
 uuid
 json
-tornado
-asyncio
-redis
+argparse
