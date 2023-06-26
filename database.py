@@ -22,7 +22,6 @@ class Database():
         else:
             self.collection.insert_one(GUID)
 
-
     #Return None if no match
     def getEntry(self, guid):
         cursor = self.collection.find({'guid': guid})
@@ -32,14 +31,12 @@ class Database():
         if len(entry) == 0:
             return None
         guidEntry = entry[0]
-
         data = {"guid": guidEntry["guid"], "expire": guidEntry["expire"], "user": guidEntry["user"]}
         return data
 
     #Deletes an entry in a the collection with the corresponding guid
     def deleteEntry(self, guid):
         self.collection.delete_one({'guid': guid})
-
       
     #Deletes guid's with expire fields before the current Unix time
     def findExpiredEntries(self):

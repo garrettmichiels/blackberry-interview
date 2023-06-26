@@ -100,7 +100,6 @@ async def main():
     app = make_app()
     app.listen(args.apiPort)
     print("API listening...")
-
     await asyncio.Event().wait()
 
 if __name__ == "__main__":

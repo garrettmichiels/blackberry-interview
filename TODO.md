@@ -1,3 +1,3 @@
 #TODO
 
-- Automatically remove expired GUID's
+- Make expired GUID removal a threaded background process

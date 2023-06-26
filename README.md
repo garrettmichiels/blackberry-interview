@@ -34,4 +34,5 @@ This is equivalent to running:
 
 
 ## Room For Improvement
+- Checking for expired GUIDs in initialize() is inefficient and can be a threaded background process
 - Localhost UI for GUID input.
