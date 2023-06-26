@@ -1,5 +1,6 @@
 from pymongo import MongoClient
 import time
+
 # A class that accesses a MongoDB Server on the given host and port to modify a database. 
 # A new database will only be created if it doesn't exist
 class Database():
@@ -40,11 +41,13 @@ class Database():
         self.collection.delete_one({'guid': guid})
 
       
-    def deleteExpiredEntries(self):
+    #Deletes guid's with expire fields before the current Unix time
+    def findExpiredEntries(self):
+        expiredGUIDs = []
         currentTime = time.time()
         cursor = self.collection.find()
         for entry in cursor:
-            print(entry)
             if int(entry["expire"]) < currentTime:
-                self.deleteEntry(entry["guid"])
-        
+                expiredGUIDs.append(entry["guid"])
+        return expiredGUIDs
+            

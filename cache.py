@@ -15,7 +15,6 @@ class Cache():
             sortedListOfKeys = sorted(self.cache.keys("*"), key=lambda x: self.cache.hgetall(x)["expire"])
             self.deleteGUID(sortedListOfKeys[0])
         self.cache.hset(guid, mapping=metadata)
-        
 
     #Get the guid if it is in the cache, otherwise, return None
     def getGUID(self, guid):

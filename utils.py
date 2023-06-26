@@ -1,5 +1,7 @@
 import time
 import uuid
+import database
+import cache
 #General utility functions
 
 THIRTY_DAYS_IN_SECONDS = 2592000
@@ -19,3 +21,12 @@ def createGUID():
     GUID = str(uuid.uuid4())
     GUID = GUID.replace("-", "").upper()
     return GUID
+
+#Checks for expired GUIDs and then deletes them
+def checkForExpiredGUIDs(database, cache):
+    while True:
+        expiredGUIDs = database.findExpiredEntries()
+        for guid in expiredGUIDs:
+            print("delete")
+            database.deleteEntry(guid)
+            cache.deleteGUID(guid)
