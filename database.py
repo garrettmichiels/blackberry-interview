@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 
 client = MongoClient("localhost", 5555)
+print("database")
 db = client["GUID_DB"]
 collection = db["GUIDs"]
 

@@ -1,9 +1,9 @@
 import redis
-
+print("cache")
 cache = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
 def storeGUID(guid, metadata, timeToExp):
-    print("create")
+
     cache.hset(guid, mapping=metadata)
     cache.expire(guid, timeToExp)
 

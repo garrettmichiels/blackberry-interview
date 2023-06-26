@@ -11,8 +11,7 @@ def getExpiration():
 
 def createGUID():
     #Create value
-    GUID = uuid.uuid4()
-
-    print(GUID)
+    GUID = str(uuid.uuid4())
+    GUID = GUID.replace("-", "").upper()
 
     return GUID

@@ -16,6 +16,7 @@ class GUIDHandler(tornado.web.RequestHandler):
         entry = cache.getGUID(guid)
         #If data is not in cache, get from database
         if entry == None:
+            print("Not in cache, going to database")
             entry = database.getEntry(guid)
             if entry == None:
                 return
@@ -55,7 +56,7 @@ class GUIDHandler(tornado.web.RequestHandler):
             print(f"DELETED: {guid}")
 
 def make_app():
-    return tornado.web.Application([(r"/guid/(.*)", GUIDHandler),])
+    return tornado.web.Application([(r"/guid/(.*)", GUIDHandler)])
 
 async def main():
     app = make_app()
