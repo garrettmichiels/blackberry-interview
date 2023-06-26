@@ -5,7 +5,7 @@ from cache import Cache
 import utils
 import json
 import argparse
-import threading
+
 
 DEFAULT_USER = "Cylance, Inc."
 DEFAULT_API_PORT = 8888
@@ -15,14 +15,13 @@ MAX_CACHE_KEYS = 3
 DEFAULT_HOST = "localhost"
 
 class GUIDHandler(tornado.web.RequestHandler):
-    #Access the database and cache upon each request
-    # def initialize(self, args):
-    #     databaseHost = args["dbHost"]
-    #     databasePort = args["dbPort"]
-    #     cacheHost = args["cacheHost"]
-    #     cachePort = args["cachePort"]
-    #     # self.database = Database(databaseHost, databasePort)
-    #     # self.cache = Cache(cacheHost, cachePort, MAX_CACHE_KEYS)
+    def initialize(self):
+        #Checks for expired GUIDs and then deletes them
+        expiredGUIDs = database.findExpiredEntries()
+        for guid in expiredGUIDs:
+            print("delete")
+            database.deleteEntry(guid)
+            cache.deleteGUID(guid)
 
     #READ
     #Get the GUID from the cache or database
@@ -57,7 +56,7 @@ class GUIDHandler(tornado.web.RequestHandler):
         try:
             body = json.loads(self.request.body)
         except:
-            #If given json is invalid, send error
+            #If given json cannot be read, send client error
             self.set_status(400)
             self.write("The JSON body provided was invalid for this API")
             return
@@ -112,14 +111,10 @@ if __name__ == "__main__":
     parser.add_argument("--cacheHost", type=str, default=DEFAULT_HOST)
     parser.add_argument("--cachePort", type=int, default=DEFAULT_CACHE_PORT)
     parser.add_argument("--debug", type=bool, default=False)
-
     args = parser.parse_args()
 
     database = Database(args.dbHost, args.dbPort)
     cache = Cache(args.cacheHost, args.cachePort, MAX_CACHE_KEYS)
-    # expiredEntriesThread = threading.Thread(target=utils.checkForExpiredGUIDs(database, cache))
-    # expiredEntriesThread.daemon = True
-    # expiredEntriesThread.start()
 
     DEBUG = args.debug
     asyncio.run(main())

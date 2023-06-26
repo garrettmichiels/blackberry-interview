@@ -16,7 +16,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"expire\": \"1427736345\",\n\"user\": \"Cylance, Inc.\"\n}"
+							"raw": "{\n\"expire\": \"142773634500000\",\n\"user\": \"Cylance, Inc.\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
@@ -86,12 +86,12 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:5555/guid/9094E4C980C74043A4B586B420E69DDF",
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
 							"protocol": "http",
 							"host": [
 								"localhost"
 							],
-							"port": "5555",
+							"port": "8888",
 							"path": [
 								"guid",
 								"9094E4C980C74043A4B586B420E69DDF"
@@ -168,7 +168,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"expire\": \"0\",\n\"user\": \"Cylance, Inc.\"\n}"
+							"raw": "{\n\"expire\": \"1000000000000000\",\n\"user\": \"Cylance, Inc.\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
@@ -219,7 +219,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"expire\": \"5000\",\n\"user\": \"Cylance, Inc.\"\n}"
+							"raw": "{\n\"expire\": \"555555550000000\",\n\"user\": \"Cylance, Inc.\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
@@ -275,7 +275,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"expire\": \"1\",\n\"user\": \"Cylance, Inc.\"\n}"
+							"raw": "{\n\"expire\": \"1000000000000\",\n\"user\": \"Cylance, Inc.\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/guid/1",
@@ -299,7 +299,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"expire\": \"2\",\n\"user\": \"Cylance, Inc.\"\n}"
+							"raw": "{\n\"expire\": \"2000000000000\",\n\"user\": \"Cylance, Inc.\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/guid/2",
@@ -323,7 +323,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"expire\": \"3\",\n\"user\": \"Cylance, Inc.\"\n}"
+							"raw": "{\n\"expire\": \"3000000000000\",\n\"user\": \"Cylance, Inc.\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/guid/3",
@@ -347,7 +347,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n\"expire\": \"4\",\n\"user\": \"Cylance, Inc.\"\n}"
+							"raw": "{\n\"expire\": \"4000000000000\",\n\"user\": \"Cylance, Inc.\"\n}"
 						},
 						"url": {
 							"raw": "http://localhost:8888/guid/4",
@@ -386,6 +386,115 @@
 							"path": [
 								"guid",
 								"1"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TestInvalidJSON",
+			"item": [
+				{
+					"name": "InvalidJSON",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"expire\": \"1000000000000000\",hello this is invalid\n\"user\": \"Cylance, Inc.\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"guid",
+								"9094E4C980C74043A4B586B420E69DDF"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "InvalidJSON2",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"expire\": \"1000000000000000\",\n\"user\": \"Cylance, Inc.\",\n{ \n    \"INVALID\"\n}\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"guid",
+								"9094E4C980C74043A4B586B420E69DDF"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "TestExpiredGUIDsDeleted",
+			"item": [
+				{
+					"name": "Create GUID Copy",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n\"expire\": \"100\",\n\"user\": \"Cylance, Inc.\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"guid",
+								"9094E4C980C74043A4B586B420E69DDF"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get GUID Copy",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "http://localhost:8888/guid/9094E4C980C74043A4B586B420E69DDF",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8888",
+							"path": [
+								"guid",
+								"9094E4C980C74043A4B586B420E69DDF"
 							]
 						}
 					},
