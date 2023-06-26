@@ -13,5 +13,4 @@ def createGUID():
     #Create value
     GUID = str(uuid.uuid4())
     GUID = GUID.replace("-", "").upper()
-
     return GUID

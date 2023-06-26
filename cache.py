@@ -1,19 +1,22 @@
 import redis
 print("cache")
-cache = redis.Redis(host='localhost', port=6379, decode_responses=True)
 
-def storeGUID(guid, metadata, timeToExp):
+class Cache():
+    def __init__(self, host, port):
+        self.cache = redis.Redis(host=host, port=port, decode_responses=True)
 
-    cache.hset(guid, mapping=metadata)
-    cache.expire(guid, timeToExp)
+    def storeGUID(self, guid, metadata, timeToExp):
 
-def getGUID(guid):
-    if cache.exists(guid):
-        return cache.hgetall(guid)
-    return None
+        self.cache.hset(guid, mapping=metadata)
+        self.cache.expire(guid, timeToExp)
 
-#delete in cache
-def deleteGUID(guid):
-    cache.delete(guid)
+    def getGUID(self, guid):
+        if self.cache.exists(guid):
+            return self.cache.hgetall(guid)
+        return None
+
+    #delete in cache
+    def deleteGUID(self, guid):
+        self.cache.delete(guid)
 
 
