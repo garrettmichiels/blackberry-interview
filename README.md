@@ -12,6 +12,8 @@ pip install -r requirements.txt
 
 Before running the python code, make sure to be running a Redis server and MongoDB server. You can provide any ports you would like for these but the default ones are 5555 for MongoDB and 6379 for Redis.
 
+To easily run the API with the default ports. Run the executable _defaultRun_.
+
 There are several input options. A port and host can be provided for both the MongoDB and Redis server.
 
 To change the API's Port, add: ```--apiPort <int>```

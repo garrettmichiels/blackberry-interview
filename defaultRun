@@ -1,0 +1,2 @@
+#!/bin/bash
+python3 webAPI.py --dbHost localhost --cacheHost localhost --dbPort 5555 --cachePort 6379 --debug True
