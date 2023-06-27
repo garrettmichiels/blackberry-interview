@@ -6,31 +6,30 @@ import utils
 import json
 import argparse
 
-
 DEFAULT_USER = "Cylance, Inc."
+DEFAULT_HOST = "localhost"
 DEFAULT_API_PORT = 8888
 DEFAULT_DB_PORT = 5555
 DEFAULT_CACHE_PORT = 6379
 MAX_CACHE_KEYS = 3
-DEFAULT_HOST = "localhost"
 
 class GUIDHandler(tornado.web.RequestHandler):
+    #Initialize is run upon each request
     def initialize(self):
         #Checks for expired GUIDs and then deletes them
         expiredGUIDs = database.findExpiredEntries()
         for guid in expiredGUIDs:
-            print("delete")
+            debugMessage(f"Expired GUID removed from cache and database: {guid}")
             database.deleteEntry(guid)
             cache.deleteGUID(guid)
 
-    #READ
-    #Get the GUID from the cache or database
+    #READ method: Get the GUID from the cache or database
+    #None is returned when a GUID can't be found in the cache or database
     def get(self, guid):
         try:
             entry = cache.getGUID(guid)
         except:
-            self.set_status(500)
-            self.write("Cannot connect to Redis Server")
+            self.writeMsgAndStatus("Cannot connect to Redis Server", 500)
             return
         #If data is not in cache, get from database
         if entry == None:
@@ -38,66 +37,52 @@ class GUIDHandler(tornado.web.RequestHandler):
             try:
                 entry = database.getEntry(guid)
             except:
-                self.set_status(500)
-                self.write("Cannot connect to MongoDB Server")
+                self.writeMsgAndStatus("Cannot connect to MongoDB Server", 500)
                 return
-            #Not in database
+            #If not in database, send message and 500 status
             if entry == None:
-                self.set_status(500)
-                self.write("That GUID doesn't exist")
+                self.writeMsgAndStatus("That GUID doesn't exist", 500)
                 return
-        self.set_status(200)
-        self.write(entry)
+        self.writeMsgAndStatus(entry, 200)
 
-    #CREATE/UPDATE
-    #Create or update the given GUID
+    #CREATE/UPDATE method: Create or update the given GUID
     #If the GUID exists, storeGUID and createEntry will simply update the expiration
     def post(self, guid=utils.createGUID()):
         try:
             body = json.loads(self.request.body)
         except:
             #If given json cannot be read, send client error
-            self.set_status(400)
-            self.write("The JSON body provided was invalid for this API")
+            self.writeMsgAndStatus("The JSON body provided was invalid for this API", 400)
             return
-        #Set variables to provided values, set to default if none
-        if "user" in body:
-            user = body["user"]
-        else:
-            user = DEFAULT_USER
-        if "expire" in body:
-            expiration = body["expire"]
-        else:
-            expiration = utils.getExpiration()
-            debugMessage(f"Created expiration: {expiration}")
+        
+        #Set variables to provided values. If not provided, set to defaults.
+        user = body.get("user", DEFAULT_USER)
+        expiration = body.get("expire", utils.getExpiration())
 
-        #Store in cahce and database
-        cache.storeGUID(guid, {"guid": guid, "expire": expiration, "user": user})
+        #Store in cache and database
+        cache.storeGUID(guid, expiration, user)
         database.createEntry(guid, expiration, user)
 
         #Write the dict to the endpoint
-        self.set_status(201)
-        self.write(database.getEntry(guid))
-        
+        self.writeMsgAndStatus(database.getEntry(guid), 201)
         debugMessage(f"STORED: {guid}")
 
-    #DELETE
-    #delete info from database. Provide no output
+    #DELETE method: Delete info from database. Provide no output
     def delete(self, guid):
         cache.deleteGUID(guid)
         database.deleteEntry(guid)
         debugMessage(f"DELETED: {guid}")
 
-
-def make_app():
-    return tornado.web.Application([(r"/guid/(.*)", GUIDHandler),])
+    def writeMsgAndStatus(self, message, status):
+        self.set_status(status)
+        self.write(message)
 
 def debugMessage(message):
     if DEBUG:
         print(message)
 
 async def main():
-    app = make_app()
+    app = tornado.web.Application([(r"/guid/(.*)", GUIDHandler),])
     app.listen(args.apiPort)
     print("API listening...")
     await asyncio.Event().wait()
@@ -112,6 +97,7 @@ if __name__ == "__main__":
     parser.add_argument("--debug", type=bool, default=False)
     args = parser.parse_args()
 
+    #Start connection to database and cache
     database = Database(args.dbHost, args.dbPort)
     cache = Cache(args.cacheHost, args.cachePort, MAX_CACHE_KEYS)
 

@@ -29,12 +29,18 @@ There are several input options. A port and host can be provided for both the Mo
 * To enable helpful debug messages in the terminal: ```--debug <bool>```
 
 To run with the default values:
-```python3 webAPI.py```
+```bash
+python3 webAPI.py
+```
 
 This is equivalent to running:
-```python3 webAPI.py --dbHost localhost --cacheHost localhost --dbPort 5555 --cachePort 6379```
+
+```bash 
+python3 webAPI.py --dbHost localhost --cacheHost localhost --dbPort 5555 --cachePort 6379
+```
 
 
 ## Room For Improvement
 - The current method of checking for expired GUIDs is being done upon each requeset to the API. This is happening as it is placed in initialize(). This is an inefficient solution and can be improved by threading the operation as a background process
 - A visual improvement could be adding UI to the localhost endpoint to allow for inputting GUIDs and JSON data.
+- The use of None as a type could be removed and a class can be created to represent no such GUID being returned. This improvement would be based on preference.

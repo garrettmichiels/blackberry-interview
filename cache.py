@@ -7,22 +7,23 @@ class Cache():
         self.maxKeys = maxKeys
         
 
-    #Create a hash entry with the guid and its other metadata (includes the guid itself)
-    #The stored guid only lasts until the _timeToExp_
-    def storeGUID(self, guid, metadata):
+    # Create a hash entry with the guid and its other metadata (includes the guid itself)
+    # The cache only stores _maxKeys_ amount of keys
+    def storeGUID(self, guid, expiration, user):
+        metadata = {"guid": guid, "expire": expiration, "user": user}
         #Remove the nearest expiration if maxKeys reached
         if self.cache.dbsize() >= self.maxKeys:
             sortedListOfKeys = sorted(self.cache.keys("*"), key=lambda x: self.cache.hgetall(x)["expire"])
             self.deleteGUID(sortedListOfKeys[0])
         self.cache.hset(guid, mapping=metadata)
 
-    #Get the guid if it is in the cache, otherwise, return None
+    # Get the guid if it is in the cache, otherwise, return None
+    # The cache only has one instance of each GUID since POST will only update if it exists already
     def getGUID(self, guid):
-        #Will only have one isntance of each guid since POST will only update if it exists already
         if self.cache.exists(guid):
             return self.cache.hgetall(guid)
         return None
 
-    #Delete an entry in the cache
+    # Delete an entry in the cache
     def deleteGUID(self, guid):
         self.cache.delete(guid)
